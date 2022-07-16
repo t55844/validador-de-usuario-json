@@ -1,0 +1,30 @@
+// campos = fields, campo = field
+
+//esse codigo serve para validar os campos que a api precisa para salvar os dados
+
+//  fieldCheck --> recebe o campo, verifica se realmente é
+//um campo e retorna uma mensagem de aviso
+const fieldCheck = (resp) => {
+    if (typeof (resp) == 'string') {
+        return `O campo ${resp} e necessario e tem que ter letras`
+    }
+}
+
+//  userValidity --> so executa todas as funcoes
+const userValidity = (user, fields) => {
+    // resps --> pega um dos campos e procura no user e
+    //se tiver uma propriedade retorna uma string e ai vai pro array resps
+    const resps = fields.filter(field => typeof (user[field]) != "string")
+    //  fieldsNeededToCheck --> pega os campos do resps e constroi 
+    //uma mensagem de aviso com a funcao  fieldCheck
+    const fieldsNeededToCheck = resps.map(resp => fieldCheck(resp))
+
+    const missingFields = fieldsNeededToCheck.join('\n')
+    //finalCheck --> verifica o tamanho da mensagem se for 0 e porque 
+    //nao a mensagem de erro se for maior tem
+    const finalCheck = missingFields.length > 0 ? missingFields : 0
+
+    return finalCheck
+}
+
+module.exports = userValidity
